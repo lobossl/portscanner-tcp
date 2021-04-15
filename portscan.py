@@ -1,30 +1,43 @@
 #!/usr/bin/python3
 
-#################################
-# Local portscanner 192.168.*.* #
-#################################
-
 import socket
+import sys
 
-s = socket.socket()
+def connect(ip,port,timer):
+        s = socket.socket()
+        s.settimeout(timer)
+        con = s.connect_ex((ip,port))
 
-a = 192
-b = 168
-c = 0
-d = 0
+        if con == 0:
+                print("I found {}:{}".format(ip,port))
 
-while 1:
-        d += 1
-        if d == 255:
-                d = 0
-                c += 1
-        if c  == 255:
-                c = 0
+def ip(a,b,c,d,speed):
+        while 1:
+                print("Hickup!#&")
 
-        ip = "{}.{}.{}.{}".format(a,b,c,d)
+                d += 1
+                if d == 255:
+                        d = 0
+                        c += 1
+                if c  == 255:
+                        c = 0
+                        b += 1
+                if b == 255:
+                        b = 0
+                        a += 1
+                if a == 255:
+                        a = 0
+                        exit("Search finish!");
 
-        for i in range(1,65500):
-                con = s.connect_ex((ip,i))
+                ip = "{}.{}.{}.{}".format(a,b,c,d)
 
-                if con == 0:
-                        print("Port Open [ {} {} ]".format(ip,i))
+                for i in range(1,65500):
+                        connect(ip,i,speed)
+
+print("Starting Crawler v1.0")
+
+try:
+        if sys.argv[0:5]:
+                ip(int(sys.argv[1]),int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4]),float(sys.argv[5]))
+except:
+        print("Example: file.py 127 0 0 1 1.0")
